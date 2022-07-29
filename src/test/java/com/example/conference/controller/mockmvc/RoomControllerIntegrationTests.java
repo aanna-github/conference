@@ -54,10 +54,10 @@ public class RoomControllerIntegrationTests extends ConferenceRoomApiSpringBootC
                 .content(json(roomDto))
                 .characterEncoding(ENCODING))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathId, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathSeatsCount, is(roomDto.getSeatsCount())))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathFloor, is(roomDto.getFloor())));
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_START, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_ID, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_SEATS_COUNT, is(roomDto.getSeatsCount())))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_FLOOR, is(roomDto.getFloor())));
     }
 
     @Test
@@ -72,10 +72,10 @@ public class RoomControllerIntegrationTests extends ConferenceRoomApiSpringBootC
                 .content(json(roomUpdateDto))
                 .characterEncoding(ENCODING))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathId, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathSeatsCount, is(updatedSeatsCount)))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathFloor, is(room.getFloor())));
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_START, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_ID, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_SEATS_COUNT, is(updatedSeatsCount)))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_FLOOR, is(room.getFloor())));
     }
 
     @Test
@@ -103,11 +103,11 @@ public class RoomControllerIntegrationTests extends ConferenceRoomApiSpringBootC
                 .characterEncoding(ENCODING)
                 .header(TestRequestConstants.CONFERENCE_ID_HEADER, conference.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathId, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathSeatsCount, is(room.getSeatsCount())))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathRoomAvailability, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathFloor, is(room.getFloor())));
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_START, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_ID, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_SEATS_COUNT, is(room.getSeatsCount())))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_ROOM_AVAILABILITY, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_FLOOR, is(room.getFloor())));
     }
 
     @Test

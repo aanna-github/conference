@@ -1,29 +1,25 @@
 package com.example.conference.constants;
 
 public interface TestJsonPathConstants {
-    String jsonPathStart = "$";
+    String JSON_PATH_START = "$";
 
-    String jsonPathId = "$.id";
+    String JSON_PATH_ID = "$.id";
 
-    String jsonPathEventDate =" $.eventDate";
+    String JSON_PATH_DESCRIPTION ="$.description";
 
-    String jsonPathDescription ="$.description";
+    String JSON_PATH_REQUESTED_SEATS_COUNT = "$.requestedSeatsCount";
 
-    String jsonPathRequestedSeatsCount = "$.requestedSeatsCount";
+    String JSON_PATH_ROOM_ID = "$.room.id";
 
-    String jsonPathRoomId = "$.room.id";
+    String JSON_PATH_SEATS_COUNT ="$.seatsCount";
 
-    String jsonPathNumber =" $.number";
+    String JSON_PATH_ROOM_AVAILABILITY ="$.roomAvailability";
 
-    String jsonPathSeatsCount ="$.seatsCount";
+    String JSON_PATH_FLOOR ="$.floor";
 
-    String jsonPathRoomAvailability ="$.roomAvailability";
+    String JSON_PATH_1ST_ID = "$[0].id";
 
-    String jsonPathFloor ="$.floor";
+    String JSON_PATH_1ST_DESCRIPTION ="$[0].description";
 
-    String jsonPath1stId = "$[0].id";
-
-    String jsonPath1stDescription ="$[0].description";
-
-    String jsonPath1stRequestedSeatsCount = "$[0].requestedSeatsCount";
+    String JSON_PATH_1ST_REQUESTED_SEATS_COUNT = "$[0].requestedSeatsCount";
 }

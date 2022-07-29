@@ -57,10 +57,10 @@ public class ConferenceControllerIntegrationTests extends ConferenceRoomApiSprin
                 .content(json(conferenceDto))
                 .characterEncoding(ENCODING))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathId, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathDescription, is(conferenceDto.getDescription())))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathRequestedSeatsCount, is(conferenceDto.getRequestedSeatsCount())));
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_START, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_ID, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_DESCRIPTION, is(conferenceDto.getDescription())))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_REQUESTED_SEATS_COUNT, is(conferenceDto.getRequestedSeatsCount())));
     }
 
     @Test
@@ -74,11 +74,11 @@ public class ConferenceControllerIntegrationTests extends ConferenceRoomApiSprin
                 .content(json(conferenceDto))
                 .characterEncoding(ENCODING))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathId, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathDescription, is(conferenceDto.getDescription())))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathRequestedSeatsCount, is(conferenceDto.getRequestedSeatsCount())))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathRoomId, is(room.getId())));
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_START, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_ID, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_DESCRIPTION, is(conferenceDto.getDescription())))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_REQUESTED_SEATS_COUNT, is(conferenceDto.getRequestedSeatsCount())))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_ROOM_ID, is(room.getId())));
     }
 
     @Test
@@ -107,10 +107,10 @@ public class ConferenceControllerIntegrationTests extends ConferenceRoomApiSprin
                 .content(json(conferenceUpdateDto))
                 .characterEncoding(ENCODING))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathId, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathDescription, is(conference.getDescription())))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathRequestedSeatsCount, is(conferenceUpdateDto.getRequestedSeatsCount())));
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_START, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_ID, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_DESCRIPTION, is(conference.getDescription())))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_REQUESTED_SEATS_COUNT, is(conferenceUpdateDto.getRequestedSeatsCount())));
     }
 
     @Test
@@ -161,8 +161,8 @@ public class ConferenceControllerIntegrationTests extends ConferenceRoomApiSprin
                 .content(json(participantDto))
                 .characterEncoding(ENCODING))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathId, notNullValue()));
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_START, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_ID, notNullValue()));
     }
 
     @Test
@@ -232,12 +232,12 @@ public class ConferenceControllerIntegrationTests extends ConferenceRoomApiSprin
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, hasSize(1)))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPath1stId, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPath1stId, not("")))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPath1stRequestedSeatsCount, is(conference.getRequestedSeatsCount())))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPath1stDescription, is(conference.getDescription())));
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_START, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_START, hasSize(1)))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_1ST_ID, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_1ST_ID, not("")))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_1ST_REQUESTED_SEATS_COUNT, is(conference.getRequestedSeatsCount())))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_1ST_DESCRIPTION, is(conference.getDescription())));
     }
 
     @Test
@@ -257,10 +257,10 @@ public class ConferenceControllerIntegrationTests extends ConferenceRoomApiSprin
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, notNullValue()))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathId, is(conference.getId())))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathRequestedSeatsCount, is(conference.getRequestedSeatsCount())))
-                .andExpect(jsonPath(TestJsonPathConstants.jsonPathDescription, is(conference.getDescription())));
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_START, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_ID, is(conference.getId())))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_REQUESTED_SEATS_COUNT, is(conference.getRequestedSeatsCount())))
+                .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_DESCRIPTION, is(conference.getDescription())));
     }
 
     @Test
