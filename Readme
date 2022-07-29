@@ -3,13 +3,4 @@ Room can be assigned to Conference in this following ways:
  1.During creation of the conference
  2.By book endpoint
 
-
-docker run -d -p 27017:27017 --name java-mongodb mongo:latest
-docker build -t springboot-mongodb:1.0 .
-docker run -p 8080:8080 --name springboot-mongodb --link java-mongodb:mongo -d springboot-mongodb:1.0
-docker logs springboot-mongodb
-
-docker ps -a
-docker container rm container ids
-
- watch -n1 'docker ps -a'
+To start the up run the command from the root of the project-> docker-compose up
