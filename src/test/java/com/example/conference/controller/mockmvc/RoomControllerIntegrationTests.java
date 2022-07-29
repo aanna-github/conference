@@ -1,0 +1,151 @@
+package com.example.conference.controller.mockmvc;
+
+import com.example.conference.ConferenceRoomApiSpringBootContextLoader;
+import com.example.conference.constants.TestRequestConstants;
+import com.example.conference.constants.TestJsonPathConstants;
+import com.example.conference.constants.TestMockValueConstants;
+import com.example.conference.controller.dto.room.create.RoomDto;
+import com.example.conference.controller.dto.room.update.RoomUpdateDto;
+import com.example.conference.dao.document.Conference;
+import com.example.conference.dao.document.Room;
+import com.example.conference.dao.repository.ConferenceRepository;
+import com.example.conference.dao.repository.RoomRepository;
+import com.example.conference.utility.ConferenceUtility;
+import com.example.conference.utility.RoomUtility;
+import org.bson.types.ObjectId;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
+@RunWith(SpringRunner.class)
+public class RoomControllerIntegrationTests extends ConferenceRoomApiSpringBootContextLoader {
+    @Autowired
+    private ConferenceRepository conferenceRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Before
+    public void setup() {
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .build();
+
+        conferenceRepository.deleteAll();
+        roomRepository.deleteAll();
+    }
+
+    @Test
+    public void testPostRoomShouldReturnCreated() throws Exception {
+        final RoomDto roomDto = RoomUtility.buildRoomDtoWithRequiredProp();
+
+        mockMvc.perform(post(TestRequestConstants.API_ROOM)
+                .contentType(APPLICATION_JSON_VALUE)
+                .content(json(roomDto))
+                .characterEncoding(ENCODING))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathId, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathSeatsCount, is(roomDto.getSeatsCount())))
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathFloor, is(roomDto.getFloor())));
+    }
+
+    @Test
+    public void testPatchExistentRoomShouldReturnOk() throws Exception {
+        final Room room = RoomUtility.buildRoomWithRequiredProp();
+        roomRepository.save(room);
+        final Integer updatedSeatsCount = room.getSeatsCount() + 1;
+        final RoomUpdateDto roomUpdateDto = RoomUtility.buildRoomUpdateDto(null, updatedSeatsCount);
+
+        mockMvc.perform(patch(TestRequestConstants.API_ROOM + "/" + room.getId())
+                .contentType(APPLICATION_JSON_VALUE)
+                .content(json(roomUpdateDto))
+                .characterEncoding(ENCODING))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathId, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathSeatsCount, is(updatedSeatsCount)))
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathFloor, is(room.getFloor())));
+    }
+
+    @Test
+    public void testPatchNonExistentRoomShouldReturnNotFound() throws Exception {
+        final Integer updatedSeatsCount = TestMockValueConstants.SEATS_COUNT_MOCK_VALUE;
+        final RoomUpdateDto roomUpdateDto = RoomUtility.buildRoomUpdateDto(null, updatedSeatsCount);
+
+        mockMvc.perform(patch(TestRequestConstants.API_ROOM + "/" + ObjectId.get().toString())
+                .contentType(APPLICATION_JSON_VALUE)
+                .content(json(roomUpdateDto))
+                .characterEncoding(ENCODING))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testPatchBookExistentRoomForExistentConferenceShouldReturnOk() throws Exception {
+        final Room room = RoomUtility.buildRoomWithRequiredProp();
+        roomRepository.save(room);
+
+        final Conference conference = ConferenceUtility.buildConferenceWithRequiredProp();
+        conferenceRepository.save(conference);
+
+        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.PATH_BOOK + room.getId())
+                .contentType(APPLICATION_JSON_VALUE)
+                .characterEncoding(ENCODING)
+                .header(TestRequestConstants.CONFERENCE_ID_HEADER, conference.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathStart, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathId, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathSeatsCount, is(room.getSeatsCount())))
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathRoomAvailability, notNullValue()))
+                .andExpect(jsonPath(TestJsonPathConstants.jsonPathFloor, is(room.getFloor())));
+    }
+
+    @Test
+    public void testPatchBookNonExistentRoomForExistentConferenceShouldReturnNonFound() throws Exception {
+        final Conference conference = ConferenceUtility.buildConferenceWithRequiredProp();
+        conferenceRepository.save(conference);
+
+        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.PATH_BOOK + ObjectId.get().toString())
+                .contentType(APPLICATION_JSON_VALUE)
+                .characterEncoding(ENCODING)
+                .header(TestRequestConstants.CONFERENCE_ID_HEADER, conference.getId()))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testPatchBookExistentRoomShouldForNonExistentConferenceReturnNonFound() throws Exception {
+        final Room room = RoomUtility.buildRoomWithRequiredProp();
+        roomRepository.save(room);
+        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.PATH_BOOK + room.getId())
+                .contentType(APPLICATION_JSON_VALUE)
+                .characterEncoding(ENCODING)
+                .header(TestRequestConstants.CONFERENCE_ID_HEADER, ObjectId.get().toString()))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testPatchBookExistentRoomForExistentConferenceShouldReturnBadRequest() throws Exception {
+        final Room room = RoomUtility.buildRoomWithRequiredProp();
+        roomRepository.save(room);
+
+        final Conference conference = ConferenceUtility.buildConferenceWithRequiredProp();
+        conference.setRequestedSeatsCount(Integer.MAX_VALUE);
+        conferenceRepository.save(conference);
+
+        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.PATH_BOOK + room.getId())
+                .contentType(APPLICATION_JSON_VALUE)
+                .characterEncoding(ENCODING)
+                .header(TestRequestConstants.CONFERENCE_ID_HEADER, conference.getId()))
+                .andExpect(status().isNotFound());
+    }
+}
