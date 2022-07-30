@@ -32,9 +32,11 @@ public class Room {
     @Field(name = "SeatsCount")
     private Integer seatsCount;
 
+    @NotNull
     @Field(name = "Floor")
     private Integer floor;
 
+    @NotNull
     @Field(name = "Address")
     private Address address;
 

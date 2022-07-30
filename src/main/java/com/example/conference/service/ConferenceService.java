@@ -8,6 +8,7 @@ import com.example.conference.controller.dto.conference.update.ConferenceUpdateD
 import com.example.conference.controller.dto.room.response.RoomResponseDto;
 import com.example.conference.dao.document.Conference;
 import com.example.conference.dao.document.Participant;
+import com.example.conference.dao.document.Room;
 import com.example.conference.dao.repository.ConferenceRepository;
 import com.example.conference.exception.DocumentNotFoundException;
 import com.example.conference.exception.InvalidInputException;
@@ -17,7 +18,6 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,11 +41,17 @@ public class ConferenceService {
         Conference conference = commonMapper.dtoToDao(conferenceDto);
         conference.setStatus(ConferenceStatus.SCHEDULED.name());
         if (conferenceDto.getRoomId() != null && !conferenceDto.getRoomId().isEmpty()) {
-            RoomResponseDto roomResponseDto = roomService.bookRoomByEventDate(conferenceDto.getRoomId(), conferenceDto.getRequestedSeatsCount(), conferenceDto.getEventDate());
-            conference.setRoom(commonMapper.dtoToDao(roomResponseDto));
+            final RoomResponseDto roomResponseDto = roomService.bookRoomByEventDate(conferenceDto.getRoomId(),
+                    conferenceDto.getRequestedSeatsCount(), conferenceDto.getEventDate());
+
+            log.info("The following room {} has been booked for the conference: " + roomResponseDto.getId());
+            log.info(roomResponseDto.toString());
+
+            conference.setRoom(roomService.findById(conferenceDto.getRoomId()));
         }
 
         conferenceRepository.save(conference);
+        log.info("A new conference {} has been created successfully", conference.getId());
         return commonMapper.daoToDResponseDto(conference);
 
     }
@@ -58,6 +64,7 @@ public class ConferenceService {
         Optional<Conference> byId = conferenceRepository.findById(conferenceId);
         if (byId.isPresent()) {
             Conference conference = byId.get();
+            ConferenceUtility.validateSeatsCount(conferenceUpdateDto.getRequestedSeatsCount(), conference.getRoom());
             commonMapper.updateConference(conferenceUpdateDto, conference);
             conferenceRepository.save(conference);
             return commonMapper.daoToDResponseDto(conference);
@@ -131,7 +138,7 @@ public class ConferenceService {
 
     public ConferenceResponseDto removeParticipant(@NonNull String participantId, @NonNull String conferenceId) {
         log.debug("ConferenceService.removeParticipant method has been called. conferenceId: {} ,participantId: {}",
-                    conferenceId, participantId);
+                conferenceId, participantId);
 
         Conference conference = conferenceRepository.findById(conferenceId).orElseThrow(() -> new DocumentNotFoundException(
                 String.format("No Conference found for id: %sCould not add a participant for the conference", conferenceId)));
@@ -152,4 +159,19 @@ public class ConferenceService {
 
         throw new DocumentNotFoundException("There is no registered participants for the conference. conferenceId: " + conference.getId());
     }
+
+    static class ConferenceUtility {
+        private ConferenceUtility() {
+        }
+
+        private static void validateSeatsCount(Integer newCount, Room room) {
+            if (newCount != null && room != null && room.getSeatsCount() < newCount) {
+                log.info("New requested seats count for the conference {} ", newCount);
+                log.error("The booked room for the conference doesn't have enough seats, room seats count {}", room.getSeatsCount());
+                throw new InvalidInputException(String.format("The booked room%s for the conference doesn't have enough seats, room seats count:%d",
+                        room.getId(), room.getSeatsCount()));
+            }
+        }
+    }
+
 }

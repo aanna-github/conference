@@ -23,7 +23,7 @@ public class RoomDto {
     private Integer number;
 
     @NotNull
-    @Min(1)
+    @Min(2)
     private Integer seatsCount;
 
     @NotNull

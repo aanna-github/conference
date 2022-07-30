@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Data
@@ -22,13 +25,17 @@ public class Participant {
     private String id;
 
     @NotNull
+    @Size(min = 3, max = 25)
     @Field(name = "FirstName")
     private String firstName;
 
     @NotNull
+    @Size(min = 3, max = 25)
     @Field(name = "LastName")
     private String lastName;
 
+    @NotNull
+    @Min(18)
     @Field(name = "Age")
     private Integer age;
 

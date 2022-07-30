@@ -114,6 +114,25 @@ public class ConferenceControllerIntegrationTests extends ConferenceRoomApiSprin
     }
 
     @Test
+    public void testPatchExistentConferenceWithBiggerSeatsCountShouldReturnBadRequest() throws Exception {
+        final Room room = roomRepository.save(RoomUtility.buildRoomWithRequiredProp());
+        final Conference conference = ConferenceUtility.buildConferenceWithRequiredProp();
+        conference.setRoom(room);
+        conferenceRepository.save(conference);
+
+        final ConferenceUpdateDto conferenceUpdateDto =
+                ConferenceUtility.buildConferenceUpdateDto(room.getSeatsCount() + 1,
+                        null, null, null);
+
+        mockMvc.perform(patch(TestRequestConstants.API_CONFERENCE + "/" + conference.getId())
+                .contentType(APPLICATION_JSON_VALUE)
+                .content(json(conferenceUpdateDto))
+                .characterEncoding(ENCODING))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
     public void testPatchNonExistentConferenceShouldReturnNonFound() throws Exception {
         final ConferenceUpdateDto conferenceUpdateDto =
                 ConferenceUtility.buildConferenceUpdateDto(TestMockValueConstants.REQUESTED_SEATS_COUNT_MOCK_VALUE,
@@ -163,6 +182,51 @@ public class ConferenceControllerIntegrationTests extends ConferenceRoomApiSprin
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_START, notNullValue()))
                 .andExpect(jsonPath(TestJsonPathConstants.JSON_PATH_ID, notNullValue()));
+    }
+
+    @Test
+    public void testPostAddParticipantWithSmallerAgeToScheduledConferenceShouldReturnBadRequest() throws Exception {
+        final Conference conference = ConferenceUtility.buildConferenceWithRequiredProp();
+        conferenceRepository.save(conference);
+
+        final ParticipantDto participantDto = ConferenceUtility.buildParticipantDto();
+        participantDto.setAge(0);
+
+        mockMvc.perform(post(TestRequestConstants.API_CONFERENCE + "/" + conference.getId() + TestRequestConstants.PATH_PARTICIPANTS)
+                .contentType(APPLICATION_JSON_VALUE)
+                .content(json(participantDto))
+                .characterEncoding(ENCODING))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testPostAddParticipantWithShorterFirstNameToScheduledConferenceShouldReturnBadRequest() throws Exception {
+        final Conference conference = ConferenceUtility.buildConferenceWithRequiredProp();
+        conferenceRepository.save(conference);
+
+        final ParticipantDto participantDto = ConferenceUtility.buildParticipantDto();
+        participantDto.setFirstName("");
+
+        mockMvc.perform(post(TestRequestConstants.API_CONFERENCE + "/" + conference.getId() + TestRequestConstants.PATH_PARTICIPANTS)
+                .contentType(APPLICATION_JSON_VALUE)
+                .content(json(participantDto))
+                .characterEncoding(ENCODING))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testPostAddParticipantWithShorterLastNameToScheduledConferenceShouldReturnBadRequest() throws Exception {
+        final Conference conference = ConferenceUtility.buildConferenceWithRequiredProp();
+        conferenceRepository.save(conference);
+
+        final ParticipantDto participantDto = ConferenceUtility.buildParticipantDto();
+        participantDto.setLastName("");
+
+        mockMvc.perform(post(TestRequestConstants.API_CONFERENCE + "/" + conference.getId() + TestRequestConstants.PATH_PARTICIPANTS)
+                .contentType(APPLICATION_JSON_VALUE)
+                .content(json(participantDto))
+                .characterEncoding(ENCODING))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

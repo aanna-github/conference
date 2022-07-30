@@ -15,6 +15,8 @@ public interface TestMockValueConstants {
 
     String LASTNAME_MOCK_VALUE  = "lastName_mock_value";
 
+    Integer AGE_MOCK_VALUE = 20;
+
     String COMPANY_NAME_MOCK_VALUE  = "companyName_mock_value";
 
     String SPECIALIZATION_MOCK_VALUE  = "specialization_mock_value";

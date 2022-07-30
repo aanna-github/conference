@@ -140,6 +140,15 @@ public class RoomService {
 
         room.getRoomAvailability().remove(roomAvailability);
         roomRepository.save(room);
+
+        log.info("The booking for the room {} has been successfully canceled for the date {}", room.getId(), bookDate);
+    }
+
+
+    public Room findById(String roomId) {
+        return roomRepository.findById(roomId).orElseThrow(() -> new DocumentNotFoundException(
+                String.format("Could not find the room with requested id:%s",
+                        roomId)));
     }
 
     protected RoomResponseDto bookRoom(Room room, LocalDateTime bookDate) {
@@ -151,7 +160,8 @@ public class RoomService {
     }
 
     private Room findByIdAndSeatsCountIsGreaterThanEqual(String roomId, Integer requestedSeatsCount) {
-        return roomRepository.findByIdAndSeatsCountIsGreaterThanEqual(roomId, requestedSeatsCount)
+        return roomRepository.findByIdAndSeatsCountIsGreaterThanEqual(roomId,
+                requestedSeatsCount)
                 .orElseThrow(() -> new DocumentNotFoundException(
                         String.format("Could not find the room with requested properties. Id:%s, seats count:%d, status:%s",
                                 roomId, requestedSeatsCount, RoomStatus.FREE)));

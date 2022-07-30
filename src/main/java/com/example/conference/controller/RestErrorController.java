@@ -22,14 +22,17 @@ import java.time.LocalDateTime;
 @Slf4j
 public class RestErrorController extends AbstractErrorController {
 
+    private static final String ERROR_PATH = "/error";
+
     @Autowired
     public RestErrorController(ErrorAttributes errorAttributes) {
         super(errorAttributes);
     }
 
-    @RequestMapping("/error")
+    @RequestMapping(ERROR_PATH)
     public ResponseEntity<ErrorResponseDto> handleErrors(HttpServletRequest request) {
-        String errorMessage = "An error occurred during the request of URN or URN is not found. URN:" + request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
+        String errorMessage = "An error occurred during the request of URN or URN is not found. URN:"
+                + request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
         log.error(errorMessage);
 
         HttpStatus status = getStatus(request);
@@ -41,6 +44,6 @@ public class RestErrorController extends AbstractErrorController {
 
     @Override
     public String getErrorPath() {
-        return "/error";
+        return ERROR_PATH;
     }
 }
