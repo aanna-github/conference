@@ -1,7 +1,13 @@
-Swagger -> http://localhost:8080/organization/swagger-ui/
+This steps shoud be done to start the app
+
+1) a)Open the project in your IDE. Run maven clean install from the IDE 
+   Or 
+   b)Open terminal in your IDE and go to the project directory. Run mvn clean install
+
+2) docker-compose up -d can be executed from the IDE terminal or from any terminal after going to the project directory.
+
+3) Go to browser and test aplication. Here is swagger ui link  http://localhost:8080/organization/swagger-ui/
+
 Room can be assigned to Conference in this following ways:
  1.During creation of the conference
  2.By book endpoint
-
-To start the up in container we need to run the command from the root of the project-> docker-compose up
-
