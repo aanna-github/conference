@@ -25,8 +25,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -150,7 +156,7 @@ public class ConferenceControllerIntegrationTests extends ConferenceRoomApiSprin
         final Conference conference = ConferenceUtility.buildConferenceWithRequiredProp();
         conferenceRepository.save(conference);
 
-        mockMvc.perform(patch(TestRequestConstants.API_CONFERENCE + TestRequestConstants.PATH_CANCEL + conference.getId())
+        mockMvc.perform(patch(TestRequestConstants.API_CONFERENCE + TestRequestConstants.CANCEL_PATH + conference.getId())
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING))
                 .andExpect(status().isOk());
@@ -162,7 +168,7 @@ public class ConferenceControllerIntegrationTests extends ConferenceRoomApiSprin
         conference.setStatus(ConferenceStatus.CANCELED.name());
         conferenceRepository.save(conference);
 
-        mockMvc.perform(patch(TestRequestConstants.API_CONFERENCE + TestRequestConstants.PATH_CANCEL + conference.getId())
+        mockMvc.perform(patch(TestRequestConstants.API_CONFERENCE + TestRequestConstants.CANCEL_PATH + conference.getId())
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING))
                 .andExpect(status().isBadRequest());

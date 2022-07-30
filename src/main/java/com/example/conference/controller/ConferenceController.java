@@ -7,7 +7,6 @@ import com.example.conference.controller.dto.conference.response.ParticipantResp
 import com.example.conference.controller.dto.conference.update.ConferenceUpdateDto;
 import com.example.conference.exception.InvalidInputException;
 import com.example.conference.service.ConferenceService;
-import com.example.conference.utility.enumeration.ConferenceStatus;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/conferences")
+@RequestMapping("/conferences")
 @AllArgsConstructor
-//@NoArgsConstructor
 @Slf4j
 public class ConferenceController {
 

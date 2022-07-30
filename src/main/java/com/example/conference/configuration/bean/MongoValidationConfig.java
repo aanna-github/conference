@@ -1,4 +1,4 @@
-package com.example.conference.configuration;
+package com.example.conference.configuration.bean;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

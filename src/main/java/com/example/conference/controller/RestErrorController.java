@@ -29,6 +29,11 @@ public class RestErrorController extends AbstractErrorController {
         super(errorAttributes);
     }
 
+    @Override
+    public String getErrorPath() {
+        return ERROR_PATH;
+    }
+
     @RequestMapping(ERROR_PATH)
     public ResponseEntity<ErrorResponseDto> handleErrors(HttpServletRequest request) {
         String errorMessage = "An error occurred during the request of URN or URN is not found. URN:"
@@ -36,14 +41,27 @@ public class RestErrorController extends AbstractErrorController {
         log.error(errorMessage);
 
         HttpStatus status = getStatus(request);
-        ErrorResponseDto errorResponse = new ErrorResponseDto(String.valueOf(status.value()),
-                ErrorConstants.INVALID_REQUEST_ERROR_TITLE.name(), errorMessage, LocalDateTime.now().toString(),
-                ErrorType.INVALID_REQUEST_ERROR);
-        return ResponseEntity.status(status).body(errorResponse);
-    }
+        ErrorResponseDto errorResponseDto;
 
-    @Override
-    public String getErrorPath() {
-        return ERROR_PATH;
+        if (HttpStatus.UNAUTHORIZED.equals(status)) {
+            errorResponseDto = ErrorResponseDto.builder()
+                    .code(String.valueOf(status.value()))
+                    .title(ErrorConstants.UNAUTHORIZED_ERROR_TITLE.getErrorMessage())
+                    .message("The user doesn't have access for th endpoint")
+                    .timeStamp(LocalDateTime.now().toString())
+                    .type(ErrorType.AUTHENTICATION_ERROR)
+                    .build();
+
+        } else {
+            errorResponseDto = ErrorResponseDto.builder()
+                    .code(String.valueOf(status.value()))
+                    .title(ErrorConstants.INVALID_REQUEST_ERROR_TITLE.getErrorMessage())
+                    .message(errorMessage)
+                    .timeStamp(LocalDateTime.now().toString())
+                    .type(ErrorType.INVALID_REQUEST_ERROR)
+                    .build();
+        }
+
+        return ResponseEntity.status(status).body(errorResponseDto);
     }
 }

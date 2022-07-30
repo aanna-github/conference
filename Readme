@@ -6,7 +6,7 @@ This steps should be done to start the app
 
 2) docker-compose up -d or docker-compose up can be executed from the IDE terminal or from any terminal after going to the project directory.
 
-3) Go to browser and test application. Here is swagger ui link  http://localhost:8080/organization/swagger-ui/
+3) Go to browser and test application. Here is swagger ui link  http://localhost:8080/organization/api/swagger-ui/
 
 Room can be assigned to Conference in this following ways:
  1.During creation of the conference

@@ -20,7 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -98,7 +99,7 @@ public class RoomControllerIntegrationTests extends ConferenceRoomApiSpringBootC
         final Conference conference = ConferenceUtility.buildConferenceWithRequiredProp();
         conferenceRepository.save(conference);
 
-        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.PATH_BOOK + room.getId())
+        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.BOOK_PATH + room.getId())
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING)
                 .header(TestRequestConstants.CONFERENCE_ID_HEADER, conference.getId()))
@@ -115,7 +116,7 @@ public class RoomControllerIntegrationTests extends ConferenceRoomApiSpringBootC
         final Conference conference = ConferenceUtility.buildConferenceWithRequiredProp();
         conferenceRepository.save(conference);
 
-        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.PATH_BOOK + ObjectId.get().toString())
+        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.BOOK_PATH + ObjectId.get().toString())
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING)
                 .header(TestRequestConstants.CONFERENCE_ID_HEADER, conference.getId()))
@@ -126,7 +127,7 @@ public class RoomControllerIntegrationTests extends ConferenceRoomApiSpringBootC
     public void testPatchBookExistentRoomShouldForNonExistentConferenceReturnNonFound() throws Exception {
         final Room room = RoomUtility.buildRoomWithRequiredProp();
         roomRepository.save(room);
-        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.PATH_BOOK + room.getId())
+        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.BOOK_PATH + room.getId())
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING)
                 .header(TestRequestConstants.CONFERENCE_ID_HEADER, ObjectId.get().toString()))
@@ -142,7 +143,7 @@ public class RoomControllerIntegrationTests extends ConferenceRoomApiSpringBootC
         conference.setRequestedSeatsCount(Integer.MAX_VALUE);
         conferenceRepository.save(conference);
 
-        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.PATH_BOOK + room.getId())
+        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.BOOK_PATH + room.getId())
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING)
                 .header(TestRequestConstants.CONFERENCE_ID_HEADER, conference.getId()))

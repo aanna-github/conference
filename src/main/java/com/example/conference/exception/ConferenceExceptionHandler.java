@@ -6,9 +6,11 @@ import com.example.conference.utility.enumeration.ErrorType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
 
@@ -60,5 +62,13 @@ public class ConferenceExceptionHandler {
                 ErrorConstants.INVALID_INPUT_ERROR_TITLE.getErrorMessage(), ex.getMessage(), LocalDateTime.now().toString(),
                 ErrorType.INVALID_REQUEST_ERROR);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ AuthenticationException.class })
+    @ResponseBody
+    public ResponseEntity<ErrorResponseDto> handleAuthenticationException(Exception ex) {
+
+        ErrorResponseDto re = new ErrorResponseDto();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(re);
     }
 }
