@@ -49,7 +49,7 @@ public class RoomController {
     }
 
     @PatchMapping(value = "/{roomId}")
-    public ResponseEntity<RoomResponseDto> updateRoom(@RequestBody RoomUpdateDto roomUpdateDto,
+    public ResponseEntity<RoomResponseDto> updateRoom(@Valid @RequestBody RoomUpdateDto roomUpdateDto,
                                                       @PathVariable("roomId") String roomId) {
 
         log.debug("RoomController.updateRoom method has been called");

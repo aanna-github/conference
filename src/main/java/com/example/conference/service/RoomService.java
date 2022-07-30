@@ -9,6 +9,7 @@ import com.example.conference.dao.document.RoomAvailability;
 import com.example.conference.dao.repository.ConferenceRepository;
 import com.example.conference.dao.repository.RoomRepository;
 import com.example.conference.exception.DocumentNotFoundException;
+import com.example.conference.exception.InvalidInputException;
 import com.example.conference.exception.RoomBusyException;
 import com.example.conference.utility.enumeration.RoomStatus;
 import com.example.conference.utility.mapper.CommonMapper;
@@ -46,6 +47,11 @@ public class RoomService {
         log.debug("RoomService.updateRoom method has been called. roomId: {}", roomId);
 
         Optional<Room> roomById = roomRepository.findById(roomId);
+        if (roomUpdateDto.getSeatsCount() != null) {
+            conferenceRepository.findByRoom(roomId)
+                    .ifPresent(conference -> RoomUtility.validateRoomSeatsCount(roomUpdateDto.getSeatsCount(), roomId, conference));
+        }
+
         if (roomById.isPresent()) {
             Room room = roomById.get();
             commonMapper.updateRoom(roomUpdateDto, room);
@@ -185,6 +191,17 @@ public class RoomService {
                 }
             }
             return true;
+        }
+
+        private static void validateRoomSeatsCount(Integer newSeatsCount, String roomId, Conference conference) {
+            if (conference.getRequestedSeatsCount() > newSeatsCount) {
+                log.error("Unable to update the room {}", roomId);
+                log.error("The room already booked for the conference {} with seats counts {} which is bigger then new seats count {})",
+                        conference.getId(), conference.getRequestedSeatsCount(), newSeatsCount);
+
+                throw new InvalidInputException(String.format("The room already booked for the conference %s with seats counts %d which is bigger then new seats count %d",
+                        conference.getId(), conference.getRequestedSeatsCount(), newSeatsCount));
+            }
         }
     }
 }

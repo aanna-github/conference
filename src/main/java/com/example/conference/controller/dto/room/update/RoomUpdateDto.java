@@ -12,11 +12,10 @@ import javax.validation.constraints.Min;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Validated
 public class RoomUpdateDto {
     @Min(1)
     private Integer number;
 
-    @Min(1)
+    @Min(2)
     private Integer seatsCount;
 }

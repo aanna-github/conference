@@ -27,7 +27,6 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 @Slf4j
-//@Validated
 public class ConferenceService {
     private final ConferenceRepository conferenceRepository;
 
@@ -168,7 +167,7 @@ public class ConferenceService {
             if (newCount != null && room != null && room.getSeatsCount() < newCount) {
                 log.info("New requested seats count for the conference {} ", newCount);
                 log.error("The booked room for the conference doesn't have enough seats, room seats count {}", room.getSeatsCount());
-                throw new InvalidInputException(String.format("The booked room%s for the conference doesn't have enough seats, room seats count:%d",
+                throw new InvalidInputException(String.format("The booked room %s for the conference doesn't have enough seats, room seats count:%d",
                         room.getId(), room.getSeatsCount()));
             }
         }
