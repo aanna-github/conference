@@ -1,8 +1,7 @@
 package com.example.conference.constants;
 
-// Constants for commented rest assured test cases
 public interface TestJsonObjectPropertyContents {
- /*   String LATITUDE_PROPERTY  = "latitude";
+    String LATITUDE_PROPERTY  = "latitude";
 
     String LONGITUDE_PROPERTY = "longitude";
 
@@ -20,5 +19,31 @@ public interface TestJsonObjectPropertyContents {
 
     String SPECIALIZATION_PROPERTY = "specialization";
 
-    String INVITED_BY_PROPERTY = "invitedBy";*/
+    String INVITED_BY_PROPERTY = "invitedBy";
+
+    String DESCRIPTION_PROPERTY = "description";
+
+    String REQUESTED_SEATS_COUNT_PROPERTY = "requestedSeatsCount";
+
+    String EVENT_DATE_PROPERTY = "eventDate";
+
+    String ID_PROPERTY = "id";
+
+    String CODE = "code";
+
+    String TITLE = "title";
+
+    String TYPE = "type";
+
+    String TIMESTAMP = "timeStamp";
+
+    String MESSAGE = "message";
+
+    String SEATS_COUNT = "seatsCount";
+
+    String NUMBER = "number";
+
+    String FLOOR = "floor";
+
+    String ADDRESS = "address";
 }

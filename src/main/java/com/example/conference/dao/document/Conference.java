@@ -6,10 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.BsonTimestamp;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Reference;
 import org.springframework.data.mongodb.core.mapping.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 @Data
@@ -41,6 +41,7 @@ public class Conference {
     @Field(name = "Room")
     private Room room;
 
+    @Size(min = 7, max = 100)
     @Field(name = "Description")
     private String description;
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,5 +21,6 @@ public class ConferenceUpdateDto {
 
     private LocalDateTime eventDate;
 
+    @Size(min = 7, max = 100)
     private String description;
 }

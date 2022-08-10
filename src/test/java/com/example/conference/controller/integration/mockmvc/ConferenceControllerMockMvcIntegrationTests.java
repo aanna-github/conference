@@ -1,4 +1,4 @@
-package com.example.conference.controller.mockmvc;
+package com.example.conference.controller.integration.mockmvc;
 
 import com.example.conference.ConferenceRoomApiSpringBootContextLoader;
 import com.example.conference.constants.TestRequestConstants;
@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-public class ConferenceControllerIntegrationTests extends ConferenceRoomApiSpringBootContextLoader {
+public class ConferenceControllerMockMvcIntegrationTests extends ConferenceRoomApiSpringBootContextLoader {
     @Autowired
     private ConferenceRepository conferenceRepository;
 

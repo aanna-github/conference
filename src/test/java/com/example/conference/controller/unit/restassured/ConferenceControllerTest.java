@@ -1,14 +1,12 @@
-//package com.example.conference;
+//package com.example.conference.controller.unit.restassured;
 //
-//import com.example.conference.constants.TestConstants;
+//import com.example.conference.constants.TestJsonObjectPropertyContents;
+//import com.example.conference.constants.TestMockValueConstants;
+//import com.example.conference.constants.TestRequestConstants;
 //import com.example.conference.dao.document.Conference;
 //import com.example.conference.dao.document.Participant;
 //import com.example.conference.dao.repository.ConferenceRepository;
-//import com.example.conference.service.ConferenceService;
-//import com.example.conference.service.RoomService;
-//import com.example.conference.service.SequenceGeneratorService;
-//import com.example.conference.util.enumeration.ConferenceStatus;
-//import com.example.conference.util.mapper.CommonMapper;
+//import com.example.conference.utility.enumeration.ConferenceStatus;
 //import io.restassured.http.ContentType;
 //import org.apache.http.HttpStatus;
 //import org.bson.BsonTimestamp;
@@ -57,7 +55,7 @@
 //
 //    @BeforeEach
 //    public void setup() {
-//        URI = String.format("%s%s%s%s", TestConstants.HTTP, BASE_URI, ROOT, TestConstants.API_CONFERENCE);
+//        URI = String.format("%s%s%s%s", TestRequestConstants.HTTP, BASE_URI, ROOT, TestRequestConstants.API_CONFERENCE);
 //    }
 //
 //    @Test
@@ -163,11 +161,11 @@
 //                .post(URI + "/" + conference.getId() + "/participants")
 //                .then()
 //                .assertThat().statusCode(HttpStatus.SC_CREATED)
-//                .body(TestConstants.FIRSTNAME_PROPERTY, equalTo(participantParams.get(TestConstants.FIRSTNAME_PROPERTY)))
-//                .body(TestConstants.LASTNAME_PROPERTY, equalTo(participantParams.get(TestConstants.LASTNAME_PROPERTY)))
-//                .body(TestConstants.INVITED_BY_PROPERTY, equalTo(participantParams.get(TestConstants.INVITED_BY_PROPERTY)))
-//                .body(TestConstants.COMPANY_NAME_PROPERTY, equalTo(participantParams.get(TestConstants.COMPANY_NAME_PROPERTY)))
-//                .body(TestConstants.SPECIALIZATION_PROPERTY, equalTo(participantParams.get(TestConstants.SPECIALIZATION_PROPERTY)))
+//                .body(TestJsonObjectPropertyContents.FIRSTNAME_PROPERTY, equalTo(participantParams.get(TestJsonObjectPropertyContents.FIRSTNAME_PROPERTY)))
+//                .body(TestJsonObjectPropertyContents.LASTNAME_PROPERTY, equalTo(participantParams.get(TestJsonObjectPropertyContents.LASTNAME_PROPERTY)))
+//                .body(TestJsonObjectPropertyContents.INVITED_BY_PROPERTY, equalTo(participantParams.get(TestJsonObjectPropertyContents.INVITED_BY_PROPERTY)))
+//                .body(TestJsonObjectPropertyContents.COMPANY_NAME_PROPERTY, equalTo(participantParams.get(TestJsonObjectPropertyContents.COMPANY_NAME_PROPERTY)))
+//                .body(TestJsonObjectPropertyContents.SPECIALIZATION_PROPERTY, equalTo(participantParams.get(TestJsonObjectPropertyContents.SPECIALIZATION_PROPERTY)))
 //                .log().all();
 //    }
 //
@@ -206,11 +204,11 @@
 //
 //        Participant participant = new Participant();
 //        participant.setId(UUID.randomUUID().toString());
-//        participant.setFirstName(TestConstants.FIRSTNAME_MOCK_VALUE);
-//        participant.setLastName(TestConstants.LASTNAME_MOCK_VALUE);
-//        participant.setInvitedBy(TestConstants.INVITED_BY_MOCK_VALUE);
-//        participant.setSpecialization(TestConstants.SPECIALIZATION_MOCK_VALUE);
-//        participant.setCompanyName(TestConstants.COMPANY_NAME_MOCK_VALUE);
+//        participant.setFirstName(TestMockValueConstants.FIRSTNAME_MOCK_VALUE);
+//        participant.setLastName(TestMockValueConstants.LASTNAME_MOCK_VALUE);
+//        participant.setInvitedBy(TestMockValueConstants.INVITED_BY_MOCK_VALUE);
+//        participant.setSpecialization(TestMockValueConstants.SPECIALIZATION_MOCK_VALUE);
+//        participant.setCompanyName(TestMockValueConstants.COMPANY_NAME_MOCK_VALUE);
 //        conference.setParticipants(new LinkedHashSet<>());
 //        conference.getParticipants().add(participant);
 //
@@ -228,11 +226,11 @@
 //
 //    private JSONObject generateDefaultParticipant() throws JSONException {
 //        final JSONObject participantParams = new JSONObject();
-//        participantParams.put(TestConstants.FIRSTNAME_PROPERTY, TestConstants.FIRSTNAME_MOCK_VALUE);
-//        participantParams.put(TestConstants.LASTNAME_PROPERTY, TestConstants.LASTNAME_MOCK_VALUE);
-//        participantParams.put(TestConstants.INVITED_BY_PROPERTY, TestConstants.INVITED_BY_MOCK_VALUE);
-//        participantParams.put(TestConstants.COMPANY_NAME_PROPERTY, TestConstants.COMPANY_NAME_MOCK_VALUE);
-//        participantParams.put(TestConstants.SPECIALIZATION_PROPERTY, TestConstants.SPECIALIZATION_MOCK_VALUE);
+//        participantParams.put(TestJsonObjectPropertyContents.FIRSTNAME_PROPERTY, TestMockValueConstants.FIRSTNAME_MOCK_VALUE);
+//        participantParams.put(TestJsonObjectPropertyContents.LASTNAME_PROPERTY, TestMockValueConstants.LASTNAME_MOCK_VALUE);
+//        participantParams.put(TestJsonObjectPropertyContents.INVITED_BY_PROPERTY, TestMockValueConstants.INVITED_BY_MOCK_VALUE);
+//        participantParams.put(TestJsonObjectPropertyContents.COMPANY_NAME_PROPERTY, TestMockValueConstants.COMPANY_NAME_MOCK_VALUE);
+//        participantParams.put(TestJsonObjectPropertyContents.SPECIALIZATION_PROPERTY, TestMockValueConstants.SPECIALIZATION_MOCK_VALUE);
 //
 //        return participantParams;
 //    }

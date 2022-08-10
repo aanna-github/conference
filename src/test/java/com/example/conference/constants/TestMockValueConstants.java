@@ -30,4 +30,6 @@ public interface TestMockValueConstants {
     Integer SEATS_COUNT_MOCK_VALUE = 100;
 
     Integer FLOOR_MOCK_VALUE = 10;
+
+    Integer NUMBER = 10;
 }

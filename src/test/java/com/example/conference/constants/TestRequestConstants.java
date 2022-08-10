@@ -1,5 +1,7 @@
 package com.example.conference.constants;
 
+import javax.print.DocFlavor;
+
 public interface TestRequestConstants {
     String API_CONFERENCE = "/conferences";
 
@@ -16,4 +18,8 @@ public interface TestRequestConstants {
     String CHECK_PATH = "/check";
 
     String CONFERENCE_ID_HEADER = "conferenceId";
+
+    String LOCATION_HEADER = "Location";
+
+    String HTTP = "http://";
 }

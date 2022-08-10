@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 @Slf4j
-public class ConferenceExceptionHandler {
+public class ConferenceRoomExceptionHandler {
 
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<ErrorResponseDto> handleException(Exception ex) {
