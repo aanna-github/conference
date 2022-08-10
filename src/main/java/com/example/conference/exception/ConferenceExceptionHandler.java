@@ -6,13 +6,14 @@ import com.example.conference.utility.enumeration.ErrorType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 @Slf4j
@@ -57,18 +58,34 @@ public class ConferenceExceptionHandler {
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        log.error(String.format("Invalid Input Exception: %s", ex.getMessage()), ex);
+        log.error(String.format("Method Argument Not Valid Exception: %s", ex.getMessage()), ex);
+
+        List<String> messages = ex.getBindingResult().getFieldErrors()
+                .stream()
+                .map(fieldError -> String.format("%s from %s %s", fieldError.getField(), fieldError.getObjectName(),
+                        fieldError.getDefaultMessage()))
+                .collect(Collectors.toList());
+
+
         ErrorResponseDto errorResponse = new ErrorResponseDto(String.valueOf(HttpStatus.BAD_REQUEST.value()),
-                ErrorConstants.INVALID_INPUT_ERROR_TITLE.getErrorMessage(), ex.getMessage(), LocalDateTime.now().toString(),
+                ErrorConstants.INVALID_INPUT_ERROR_TITLE.getErrorMessage(), messages.toString(), LocalDateTime.now().toString(),
                 ErrorType.INVALID_REQUEST_ERROR);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({ AuthenticationException.class })
-    @ResponseBody
-    public ResponseEntity<ErrorResponseDto> handleAuthenticationException(Exception ex) {
+    @ExceptionHandler(value = {ConstraintViolationException.class})
+    public ResponseEntity<ErrorResponseDto> handleConstraintViolationException(ConstraintViolationException ex) {
+        log.error(String.format("Constraint Violation Exception: %s", ex.getMessage()), ex);
 
-        ErrorResponseDto re = new ErrorResponseDto();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(re);
+        List<String> messages = ex.getConstraintViolations()
+                .stream()
+                .map(constraintViolation -> String.format("%s from %s %s", constraintViolation.getPropertyPath(),
+                        constraintViolation.getRootBeanClass().getName(), constraintViolation.getMessage()))
+                .collect(Collectors.toList());
+
+        ErrorResponseDto errorResponse = new ErrorResponseDto(String.valueOf(HttpStatus.BAD_REQUEST.value()),
+                ErrorConstants.INVALID_INPUT_ERROR_TITLE.getErrorMessage(), messages.toString(), LocalDateTime.now().toString(),
+                ErrorType.INVALID_REQUEST_ERROR);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
