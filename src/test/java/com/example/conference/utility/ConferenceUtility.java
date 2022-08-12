@@ -2,11 +2,11 @@ package com.example.conference.utility;
 
 import com.example.conference.constants.TestJsonObjectPropertyContents;
 import com.example.conference.constants.TestMockValueConstants;
-import com.example.conference.controller.dto.conference.create.ConferenceDto;
-import com.example.conference.controller.dto.conference.create.ParticipantDto;
-import com.example.conference.controller.dto.conference.response.ConferenceResponseDto;
-import com.example.conference.controller.dto.conference.response.ParticipantResponseDto;
-import com.example.conference.controller.dto.conference.update.ConferenceUpdateDto;
+import com.example.conference.controller.payload.request.ConferenceDto;
+import com.example.conference.controller.payload.request.ParticipantDto;
+import com.example.conference.controller.payload.response.ConferenceResponseDto;
+import com.example.conference.controller.payload.response.ParticipantResponseDto;
+import com.example.conference.controller.payload.request.ConferenceUpdateDto;
 import com.example.conference.dao.document.Conference;
 import com.example.conference.dao.document.Participant;
 import com.example.conference.utility.enumeration.ConferenceStatus;
@@ -26,14 +26,6 @@ public class ConferenceUtility {
         return ConferenceDto.builder()
                 .description(TestMockValueConstants.DESCRIPTION_MOCK_VALUE)
                 .requestedSeatsCount(TestMockValueConstants.REQUESTED_SEATS_COUNT_MOCK_VALUE)
-                .eventDate(LocalDateTime.now())
-                .build();
-    }
-
-    public static ConferenceDto buildNonValidConferenceDtoWithRequiredProp() {
-        return ConferenceDto.builder()
-                .description(TestMockValueConstants.DESCRIPTION_MOCK_VALUE)
-                .requestedSeatsCount(0)
                 .eventDate(LocalDateTime.now())
                 .build();
     }
@@ -115,15 +107,6 @@ public class ConferenceUtility {
         conferenceParams.put(TestJsonObjectPropertyContents.DESCRIPTION_PROPERTY, TestMockValueConstants.DESCRIPTION_MOCK_VALUE);
         conferenceParams.put(TestJsonObjectPropertyContents.REQUESTED_SEATS_COUNT_PROPERTY, TestMockValueConstants.REQUESTED_SEATS_COUNT_MOCK_VALUE);
         conferenceParams.put(TestJsonObjectPropertyContents.EVENT_DATE_PROPERTY, LocalDateTime.now());
-
-        return conferenceParams;
-    }
-
-    public static JSONObject buildConferenceJsonWithNonValidProp() throws JSONException {
-        JSONObject conferenceParams = new JSONObject();
-        conferenceParams.put(TestJsonObjectPropertyContents.DESCRIPTION_PROPERTY, "");
-        conferenceParams.put(TestJsonObjectPropertyContents.REQUESTED_SEATS_COUNT_PROPERTY, 0);
-        conferenceParams.put(TestJsonObjectPropertyContents.EVENT_DATE_PROPERTY, null);
 
         return conferenceParams;
     }

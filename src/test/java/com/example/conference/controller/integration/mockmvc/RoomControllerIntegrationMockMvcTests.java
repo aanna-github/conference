@@ -4,8 +4,9 @@ import com.example.conference.ConferenceRoomApiSpringBootContextLoader;
 import com.example.conference.constants.TestRequestConstants;
 import com.example.conference.constants.TestJsonPathConstants;
 import com.example.conference.constants.TestMockValueConstants;
-import com.example.conference.controller.dto.room.create.RoomDto;
-import com.example.conference.controller.dto.room.update.RoomUpdateDto;
+import com.example.conference.constants.TestRoles;
+import com.example.conference.controller.payload.request.RoomDto;
+import com.example.conference.controller.payload.request.RoomUpdateDto;
 import com.example.conference.dao.document.Conference;
 import com.example.conference.dao.document.Room;
 import com.example.conference.dao.repository.ConferenceRepository;
@@ -17,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -47,6 +49,7 @@ public class RoomControllerIntegrationMockMvcTests extends ConferenceRoomApiSpri
     }
 
     @Test
+    @WithMockUser(roles = {TestRoles.ROLE_MODERATOR, TestRoles.ROLE_ADMIN})
     public void testPostRoomShouldReturnCreated() throws Exception {
         final RoomDto roomDto = RoomUtility.buildRoomDtoWithRequiredProp();
 
@@ -62,6 +65,19 @@ public class RoomControllerIntegrationMockMvcTests extends ConferenceRoomApiSpri
     }
 
     @Test
+    @WithMockUser
+    public void testPostRoomShouldReturnUnauthorized() throws Exception {
+        final RoomDto roomDto = RoomUtility.buildRoomDtoWithRequiredProp();
+
+        mockMvc.perform(post(TestRequestConstants.API_ROOM)
+                .contentType(APPLICATION_JSON_VALUE)
+                .content(json(roomDto))
+                .characterEncoding(ENCODING))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = {TestRoles.ROLE_MODERATOR, TestRoles.ROLE_ADMIN})
     public void testPatchExistentRoomShouldReturnOk() throws Exception {
         final Room room = RoomUtility.buildRoomWithRequiredProp();
         roomRepository.save(room);
@@ -80,6 +96,22 @@ public class RoomControllerIntegrationMockMvcTests extends ConferenceRoomApiSpri
     }
 
     @Test
+    @WithMockUser
+    public void testPatchExistentRoomShouldReturnUnauthorized() throws Exception {
+        final Room room = RoomUtility.buildRoomWithRequiredProp();
+        roomRepository.save(room);
+        final Integer updatedSeatsCount = room.getSeatsCount() + 1;
+        final RoomUpdateDto roomUpdateDto = RoomUtility.buildRoomUpdateDto(null, updatedSeatsCount);
+
+        mockMvc.perform(patch(TestRequestConstants.API_ROOM + "/" + room.getId())
+                .contentType(APPLICATION_JSON_VALUE)
+                .content(json(roomUpdateDto))
+                .characterEncoding(ENCODING))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = {TestRoles.ROLE_MODERATOR, TestRoles.ROLE_ADMIN})
     public void testPatchNonExistentRoomShouldReturnNotFound() throws Exception {
         final Integer updatedSeatsCount = TestMockValueConstants.SEATS_COUNT_MOCK_VALUE;
         final RoomUpdateDto roomUpdateDto = RoomUtility.buildRoomUpdateDto(null, updatedSeatsCount);
@@ -92,6 +124,7 @@ public class RoomControllerIntegrationMockMvcTests extends ConferenceRoomApiSpri
     }
 
     @Test
+    @WithMockUser(roles = {TestRoles.ROLE_MODERATOR, TestRoles.ROLE_ADMIN})
     public void testPatchBookExistentRoomForExistentConferenceShouldReturnOk() throws Exception {
         final Room room = RoomUtility.buildRoomWithRequiredProp();
         roomRepository.save(room);
@@ -112,7 +145,24 @@ public class RoomControllerIntegrationMockMvcTests extends ConferenceRoomApiSpri
     }
 
     @Test
-    public void testPatchBookNonExistentRoomForExistentConferenceShouldReturnNonFound() throws Exception {
+    @WithMockUser
+    public void testPatchBookExistentRoomForExistentConferenceShouldReturnUnauthorized() throws Exception {
+        final Room room = RoomUtility.buildRoomWithRequiredProp();
+        roomRepository.save(room);
+
+        final Conference conference = ConferenceUtility.buildConferenceWithRequiredProp();
+        conferenceRepository.save(conference);
+
+        mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.BOOK_PATH + room.getId())
+                .contentType(APPLICATION_JSON_VALUE)
+                .characterEncoding(ENCODING)
+                .header(TestRequestConstants.CONFERENCE_ID_HEADER, conference.getId()))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = {TestRoles.ROLE_MODERATOR, TestRoles.ROLE_ADMIN})
+    public void testPatchBookNonExistentRoomForExistentConferenceShouldReturnNotFound() throws Exception {
         final Conference conference = ConferenceUtility.buildConferenceWithRequiredProp();
         conferenceRepository.save(conference);
 
@@ -124,7 +174,8 @@ public class RoomControllerIntegrationMockMvcTests extends ConferenceRoomApiSpri
     }
 
     @Test
-    public void testPatchBookExistentRoomShouldForNonExistentConferenceReturnNonFound() throws Exception {
+    @WithMockUser(roles = {TestRoles.ROLE_MODERATOR, TestRoles.ROLE_ADMIN})
+    public void testPatchBookExistentRoomShouldForNonExistentConferenceReturnNotFound() throws Exception {
         final Room room = RoomUtility.buildRoomWithRequiredProp();
         roomRepository.save(room);
         mockMvc.perform(patch(TestRequestConstants.API_ROOM + TestRequestConstants.BOOK_PATH + room.getId())
@@ -135,6 +186,7 @@ public class RoomControllerIntegrationMockMvcTests extends ConferenceRoomApiSpri
     }
 
     @Test
+    @WithMockUser(roles = {TestRoles.ROLE_MODERATOR, TestRoles.ROLE_ADMIN})
     public void testPatchBookExistentRoomForExistentConferenceShouldReturnBadRequest() throws Exception {
         final Room room = RoomUtility.buildRoomWithRequiredProp();
         roomRepository.save(room);

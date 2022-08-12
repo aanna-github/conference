@@ -2,18 +2,15 @@ package com.example.conference.utility;
 
 import com.example.conference.constants.TestJsonObjectPropertyContents;
 import com.example.conference.constants.TestMockValueConstants;
-import com.example.conference.controller.dto.room.create.AddressDto;
-import com.example.conference.controller.dto.room.create.RoomDto;
-import com.example.conference.controller.dto.room.response.AddressResponseDto;
-import com.example.conference.controller.dto.room.response.RoomResponseDto;
-import com.example.conference.controller.dto.room.update.RoomUpdateDto;
+import com.example.conference.controller.payload.request.AddressDto;
+import com.example.conference.controller.payload.request.RoomDto;
+import com.example.conference.controller.payload.response.AddressResponseDto;
+import com.example.conference.controller.payload.response.RoomResponseDto;
+import com.example.conference.controller.payload.request.RoomUpdateDto;
 import com.example.conference.dao.document.Address;
 import com.example.conference.dao.document.Room;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.time.LocalDateTime;
-
 
 public class RoomUtility {
 
@@ -55,16 +52,6 @@ public class RoomUtility {
                 .build();
     }
 
-    private static AddressResponseDto buildAddressResponse() {
-        return AddressResponseDto.builder()
-                .addressLine1(TestMockValueConstants.ADDRESS_LINE1_MOCK_VALUE)
-                .addressLine2(TestMockValueConstants.ADDRESS_LINE2_MOCK_VALUE)
-                .timezone(TestMockValueConstants.TIMEZONE_MOCK_VALUE)
-                .latitude(TestMockValueConstants.LATITUDE_MOCK_VALUE)
-                .longitude(TestMockValueConstants.LONGITUDE_MOCK_VALUE)
-                .build();
-    }
-
     public static RoomUpdateDto buildRoomUpdateDto(Integer number, Integer seatsCount) {
         RoomUpdateDto roomUpdateDto = RoomUpdateDto.builder().build();
         if (number != null) {
@@ -75,15 +62,6 @@ public class RoomUtility {
             roomUpdateDto.setSeatsCount(seatsCount);
         }
         return roomUpdateDto;
-    }
-
-    public static RoomResponseDto buildRoomResponseDto(JSONObject roomParams) {
-            return RoomResponseDto.builder()
-                    .seatsCount(TestMockValueConstants.SEATS_COUNT_MOCK_VALUE)
-                    .number(TestMockValueConstants.REQUESTED_SEATS_COUNT_MOCK_VALUE)
-                    .floor(TestMockValueConstants.FLOOR_MOCK_VALUE)
-                    .address(buildAddressResponse())
-                    .build();
     }
 
     public static JSONObject buildRoomJsonWithRequiredProp() throws JSONException {

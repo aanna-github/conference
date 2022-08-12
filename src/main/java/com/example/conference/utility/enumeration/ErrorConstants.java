@@ -11,7 +11,13 @@ public enum ErrorConstants {
 
     UNAUTHORIZED_ERROR_TITLE("The request requires client authentication."),
 
-    ROOM_BUSY_ERROR_TITLE("The room busy for the date.");
+    ROOM_BUSY_ERROR_TITLE("The room busy for the date."),
+
+    BAD_CREDENTIALS("Provided credentials are not correct"),
+
+    NOT_FOUND_CREDENTIALS("Authentication Credentials are not found"),
+
+    ACCESS_DENIED("Principal doesn't have access to the resource");
 
     private final String errorMessage;
 

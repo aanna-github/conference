@@ -1,8 +1,8 @@
 package com.example.conference.service;
 
-import com.example.conference.controller.dto.room.create.RoomDto;
-import com.example.conference.controller.dto.room.response.RoomResponseDto;
-import com.example.conference.controller.dto.room.update.RoomUpdateDto;
+import com.example.conference.controller.payload.request.RoomDto;
+import com.example.conference.controller.payload.response.RoomResponseDto;
+import com.example.conference.controller.payload.request.RoomUpdateDto;
 import com.example.conference.dao.document.Conference;
 import com.example.conference.dao.document.Room;
 import com.example.conference.dao.document.RoomAvailability;

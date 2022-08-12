@@ -1,11 +1,11 @@
 package com.example.conference.service;
 
-import com.example.conference.controller.dto.conference.create.ConferenceDto;
-import com.example.conference.controller.dto.conference.create.ParticipantDto;
-import com.example.conference.controller.dto.conference.response.ConferenceResponseDto;
-import com.example.conference.controller.dto.conference.response.ParticipantResponseDto;
-import com.example.conference.controller.dto.conference.update.ConferenceUpdateDto;
-import com.example.conference.controller.dto.room.response.RoomResponseDto;
+import com.example.conference.controller.payload.request.ConferenceDto;
+import com.example.conference.controller.payload.request.ParticipantDto;
+import com.example.conference.controller.payload.response.ConferenceResponseDto;
+import com.example.conference.controller.payload.response.ParticipantResponseDto;
+import com.example.conference.controller.payload.request.ConferenceUpdateDto;
+import com.example.conference.controller.payload.response.RoomResponseDto;
 import com.example.conference.dao.document.Conference;
 import com.example.conference.dao.document.Participant;
 import com.example.conference.dao.document.Room;

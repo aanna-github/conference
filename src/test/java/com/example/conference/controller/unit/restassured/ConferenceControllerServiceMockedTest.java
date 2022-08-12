@@ -4,11 +4,11 @@ import com.example.conference.constants.TestJsonObjectPropertyContents;
 import com.example.conference.constants.TestMockValueConstants;
 import com.example.conference.constants.TestRequestConstants;
 import com.example.conference.controller.ConferenceController;
-import com.example.conference.controller.dto.conference.create.ConferenceDto;
-import com.example.conference.controller.dto.conference.create.ParticipantDto;
-import com.example.conference.controller.dto.conference.response.ConferenceResponseDto;
-import com.example.conference.controller.dto.conference.response.ParticipantResponseDto;
-import com.example.conference.controller.dto.conference.update.ConferenceUpdateDto;
+import com.example.conference.controller.payload.request.ConferenceDto;
+import com.example.conference.controller.payload.request.ParticipantDto;
+import com.example.conference.controller.payload.response.ConferenceResponseDto;
+import com.example.conference.controller.payload.response.ParticipantResponseDto;
+import com.example.conference.controller.payload.request.ConferenceUpdateDto;
 import com.example.conference.exception.ConferenceRoomExceptionHandler;
 import com.example.conference.exception.DocumentNotFoundException;
 import com.example.conference.exception.InvalidInputException;
@@ -32,18 +32,21 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class ConferenceControllerServiceMockedTest {
 
     final private ObjectMapper mapper = new ObjectMapper();
@@ -59,7 +62,8 @@ public class ConferenceControllerServiceMockedTest {
 
     @Before
     public void initialiseRestAssuredMockMvcStandalone() {
-        RestAssuredMockMvc.standaloneSetup(conferenceController, conferenceRoomExceptionHandler);
+        RestAssuredMockMvc.standaloneSetup(conferenceController, conferenceRoomExceptionHandler,
+                springSecurity((request, response, chain) -> chain.doFilter(request, response)));
     }
 
     @Test

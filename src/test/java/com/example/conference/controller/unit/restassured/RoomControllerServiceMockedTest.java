@@ -4,9 +4,9 @@ import com.example.conference.constants.TestJsonObjectPropertyContents;
 import com.example.conference.constants.TestMockValueConstants;
 import com.example.conference.constants.TestRequestConstants;
 import com.example.conference.controller.RoomController;
-import com.example.conference.controller.dto.room.create.RoomDto;
-import com.example.conference.controller.dto.room.response.RoomResponseDto;
-import com.example.conference.controller.dto.room.update.RoomUpdateDto;
+import com.example.conference.controller.payload.request.RoomDto;
+import com.example.conference.controller.payload.response.RoomResponseDto;
+import com.example.conference.controller.payload.request.RoomUpdateDto;
 import com.example.conference.exception.ConferenceRoomExceptionHandler;
 import com.example.conference.exception.DocumentNotFoundException;
 import com.example.conference.exception.RoomBusyException;
@@ -14,7 +14,6 @@ import com.example.conference.service.RoomService;
 import com.example.conference.utility.RoomUtility;
 import com.example.conference.utility.enumeration.ErrorType;
 import com.example.conference.utility.enumeration.RoomStatus;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.apache.http.HttpStatus;
@@ -37,6 +36,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RoomControllerServiceMockedTest {
@@ -52,7 +52,8 @@ public class RoomControllerServiceMockedTest {
 
     @Before
     public void initialiseRestAssuredMockMvcStandalone() {
-        RestAssuredMockMvc.standaloneSetup(roomController, conferenceRoomExceptionHandler);
+        RestAssuredMockMvc.standaloneSetup(roomController, conferenceRoomExceptionHandler,
+                springSecurity((request, response, chain) -> chain.doFilter(request, response)));
     }
 
     @Test

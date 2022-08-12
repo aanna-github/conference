@@ -1,16 +1,18 @@
 package com.example.conference.utility.mapper;
 
-import com.example.conference.controller.dto.conference.create.ConferenceDto;
-import com.example.conference.controller.dto.conference.create.ParticipantDto;
-import com.example.conference.controller.dto.conference.response.ConferenceResponseDto;
-import com.example.conference.controller.dto.conference.response.ParticipantResponseDto;
-import com.example.conference.controller.dto.conference.update.ConferenceUpdateDto;
-import com.example.conference.controller.dto.room.*;
-import com.example.conference.controller.dto.room.create.AddressDto;
-import com.example.conference.controller.dto.room.create.RoomDto;
-import com.example.conference.controller.dto.room.response.AddressResponseDto;
-import com.example.conference.controller.dto.room.response.RoomResponseDto;
-import com.example.conference.controller.dto.room.update.RoomUpdateDto;
+import com.example.conference.configuration.security.controller.payload.response.UserResponseDto;
+import com.example.conference.configuration.security.domain.User;
+import com.example.conference.controller.payload.RoomAvailabilityDto;
+import com.example.conference.controller.payload.request.ConferenceDto;
+import com.example.conference.controller.payload.request.ParticipantDto;
+import com.example.conference.controller.payload.response.ConferenceResponseDto;
+import com.example.conference.controller.payload.response.ParticipantResponseDto;
+import com.example.conference.controller.payload.request.ConferenceUpdateDto;
+import com.example.conference.controller.payload.request.AddressDto;
+import com.example.conference.controller.payload.request.RoomDto;
+import com.example.conference.controller.payload.response.AddressResponseDto;
+import com.example.conference.controller.payload.response.RoomResponseDto;
+import com.example.conference.controller.payload.request.RoomUpdateDto;
 import com.example.conference.dao.document.*;
 import org.bson.BsonTimestamp;
 import org.mapstruct.*;
@@ -90,4 +92,7 @@ public interface CommonMapper {
 
     @Named(value = "daoToParticipantResponseDto")
     ParticipantResponseDto daoToDResponseDto(Participant participant);
+
+    @Named(value = "daoToUserResponseDto")
+    UserResponseDto daoToUserResponseDto(User user);
 }

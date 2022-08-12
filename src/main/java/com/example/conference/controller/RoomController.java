@@ -1,14 +1,17 @@
 package com.example.conference.controller;
 
-import com.example.conference.controller.dto.room.create.RoomDto;
-import com.example.conference.controller.dto.room.response.RoomResponseDto;
-import com.example.conference.controller.dto.room.update.RoomUpdateDto;
+import com.example.conference.controller.payload.request.RoomDto;
+import com.example.conference.controller.payload.response.RoomResponseDto;
+import com.example.conference.controller.payload.request.RoomUpdateDto;
 import com.example.conference.exception.InvalidInputException;
 import com.example.conference.service.RoomService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,6 +24,7 @@ import java.util.List;
 @RequestMapping("/rooms")
 @AllArgsConstructor
 @Slf4j
+@ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
 public class RoomController {
 
     private final RoomService roomService;
@@ -31,6 +35,8 @@ public class RoomController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<RoomResponseDto> addRoom(@Valid @RequestBody RoomDto roomDto) {
         log.debug("RoomController.addRoom method has been called");
 
@@ -49,6 +55,8 @@ public class RoomController {
     }
 
     @PatchMapping(value = "/{roomId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<RoomResponseDto> updateRoom(@Valid @RequestBody RoomUpdateDto roomUpdateDto,
                                                       @PathVariable("roomId") String roomId) {
 
@@ -63,6 +71,8 @@ public class RoomController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<List<RoomResponseDto>> getAllRooms() {
         log.debug("RoomController.getAllRooms method has been called");
 
@@ -75,6 +85,8 @@ public class RoomController {
     }
 
     @GetMapping("/availability")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<List<RoomResponseDto>> checkRoomsAvailability(@RequestParam(value = "seats") Integer seats,
                                                                         @RequestParam(value = "eventDate")
                                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventDate) {
@@ -86,6 +98,8 @@ public class RoomController {
     }
 
     @PatchMapping("/book/{roomId}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<RoomResponseDto> bookRoomForConference(@PathVariable(value = "roomId") String roomId,
                                                                  @RequestHeader(value = "conferenceId") String conferenceId) {
 

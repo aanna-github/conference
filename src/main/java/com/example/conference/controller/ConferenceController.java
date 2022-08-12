@@ -1,17 +1,19 @@
 package com.example.conference.controller;
 
-import com.example.conference.controller.dto.conference.create.ConferenceDto;
-import com.example.conference.controller.dto.conference.create.ParticipantDto;
-import com.example.conference.controller.dto.conference.response.ConferenceResponseDto;
-import com.example.conference.controller.dto.conference.response.ParticipantResponseDto;
-import com.example.conference.controller.dto.conference.update.ConferenceUpdateDto;
+import com.example.conference.controller.payload.request.ConferenceDto;
+import com.example.conference.controller.payload.request.ParticipantDto;
+import com.example.conference.controller.payload.response.ConferenceResponseDto;
+import com.example.conference.controller.payload.response.ParticipantResponseDto;
+import com.example.conference.controller.payload.request.ConferenceUpdateDto;
 import com.example.conference.exception.InvalidInputException;
 import com.example.conference.service.ConferenceService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,7 +27,6 @@ import java.util.List;
 @Slf4j
 public class ConferenceController {
 
-    @Autowired
     private final ConferenceService conferenceService;
 
     @GetMapping(value = "/check")
@@ -34,6 +35,8 @@ public class ConferenceController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<ConferenceResponseDto> addConference(@Valid @RequestBody ConferenceDto conferenceDto) {
         log.debug("ConferenceController.addConference method has been called");
 
@@ -52,6 +55,8 @@ public class ConferenceController {
     }
 
     @PatchMapping(value = "/{conferenceId}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<ConferenceResponseDto> updateConference(@Valid @RequestBody ConferenceUpdateDto conferenceUpdateDto,
                                                                   @PathVariable("conferenceId") String conferenceId) {
 
@@ -67,6 +72,8 @@ public class ConferenceController {
     }
 
     @PatchMapping(value = "/cancel/{conferenceId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<ConferenceResponseDto> cancelConference(@PathVariable("conferenceId") String conferenceId) {
         log.debug("ConferenceController.cancelConference method has been called");
 
@@ -80,6 +87,8 @@ public class ConferenceController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<List<ConferenceResponseDto>> getAllConferences() {
         log.debug("ConferenceController.getAllConferences method has been called");
 
@@ -92,6 +101,8 @@ public class ConferenceController {
     }
 
     @GetMapping(value = "/{conferenceId}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<ConferenceResponseDto> getConferenceById(@PathVariable("conferenceId") String conferenceId) {
         log.debug("ConferenceController.getConferenceById method has been called");
 
@@ -100,8 +111,10 @@ public class ConferenceController {
     }
 
     @PostMapping(value = "/{conferenceId}/participants")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<ParticipantResponseDto> addParticipant(@PathVariable("conferenceId") String conferenceId,
-                                                                @Valid @RequestBody ParticipantDto participantDto) {
+                                                                 @Valid @RequestBody ParticipantDto participantDto) {
         log.debug("ConferenceController.addParticipant method has been called");
 
         ParticipantResponseDto participantResponseDto = conferenceService.addParticipant(participantDto, conferenceId);
@@ -119,6 +132,8 @@ public class ConferenceController {
     }
 
     @DeleteMapping(value = "/{conferenceId}/participants/{participantId}")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<ConferenceResponseDto> removeParticipant(@PathVariable("participantId") String participantId,
                                                                    @PathVariable("conferenceId") String conferenceId) {
 

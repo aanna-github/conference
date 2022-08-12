@@ -1,6 +1,6 @@
 package com.example.conference.controller;
 
-import com.example.conference.controller.dto.error.ErrorResponseDto;
+import com.example.conference.controller.payload.response.ErrorResponseDto;
 import com.example.conference.utility.enumeration.ErrorConstants;
 import com.example.conference.utility.enumeration.ErrorType;
 import lombok.extern.slf4j.Slf4j;
