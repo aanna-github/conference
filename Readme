@@ -4,7 +4,7 @@ This steps should be done to start the app
    Or 
    b)Open terminal in your IDE and go to the project directory. Run mvn clean install
 
-2) docker-compose up -d or docker-compose up can be executed from the IDE terminal or from any terminal after going to the project directory.
+2) docker-compose up -d  --build or docker-compose up --build can be executed from the IDE terminal or from any terminal after going to the project directory.
 
 3) Go to browser and test application. Here is swagger ui link  http://localhost:8080/organization/api/swagger-ui/
 

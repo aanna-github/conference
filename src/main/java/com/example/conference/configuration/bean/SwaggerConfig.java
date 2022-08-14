@@ -21,7 +21,6 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.example.conference"))
-//                .apis(RequestHandlerSelectors.basePackage("com.example.conference.configuration.security.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
