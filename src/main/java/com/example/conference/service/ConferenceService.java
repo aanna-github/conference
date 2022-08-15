@@ -140,7 +140,12 @@ public class ConferenceService {
                 conferenceId, participantId);
 
         Conference conference = conferenceRepository.findById(conferenceId).orElseThrow(() -> new DocumentNotFoundException(
-                String.format("No Conference found for id: %sCould not add a participant for the conference", conferenceId)));
+                String.format("No Conference found for id: %s Could not remove a participant from the conference", conferenceId)));
+
+        if (!ConferenceStatus.SCHEDULED.name().equals(conference.getStatus())) {
+            throw new InvalidInputException(String.format("Unable to remove a participant from the conference which has %s. Status should be: %s",
+                    conference.getStatus(), ConferenceStatus.SCHEDULED.name()));
+        }
 
         if (conference.getParticipants() != null) {
             Participant participantToRemove = conference.getParticipants()

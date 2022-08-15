@@ -36,7 +36,8 @@ public class ConferenceController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
+    @ApiOperation(value = "To create a new conference. The room can be assigned during the conference creation or by book/{roomId} endpoint  ",
+            authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<ConferenceResponseDto> addConference(@Valid @RequestBody ConferenceDto conferenceDto) {
         log.debug("ConferenceController.addConference method has been called");
 
@@ -56,7 +57,7 @@ public class ConferenceController {
 
     @PatchMapping(value = "/{conferenceId}")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
+    @ApiOperation(value = "To update a conferance", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<ConferenceResponseDto> updateConference(@Valid @RequestBody ConferenceUpdateDto conferenceUpdateDto,
                                                                   @PathVariable("conferenceId") String conferenceId) {
 
@@ -73,7 +74,7 @@ public class ConferenceController {
 
     @PatchMapping(value = "/cancel/{conferenceId}")
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
+    @ApiOperation(value = "To cancel a conferance ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<ConferenceResponseDto> cancelConference(@PathVariable("conferenceId") String conferenceId) {
         log.debug("ConferenceController.cancelConference method has been called");
 
@@ -88,7 +89,7 @@ public class ConferenceController {
 
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
+    @ApiOperation(value = "To see all conferances (canceled and sheduled)", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<List<ConferenceResponseDto>> getAllConferences() {
         log.debug("ConferenceController.getAllConferences method has been called");
 
@@ -102,7 +103,7 @@ public class ConferenceController {
 
     @GetMapping(value = "/{conferenceId}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
+    @ApiOperation(value = "To see conference by id", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<ConferenceResponseDto> getConferenceById(@PathVariable("conferenceId") String conferenceId) {
         log.debug("ConferenceController.getConferenceById method has been called");
 
@@ -112,7 +113,7 @@ public class ConferenceController {
 
     @PostMapping(value = "/{conferenceId}/participants")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
+    @ApiOperation(value = "To add a new participant to the scheduled conference", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<ParticipantResponseDto> addParticipant(@PathVariable("conferenceId") String conferenceId,
                                                                  @Valid @RequestBody ParticipantDto participantDto) {
         log.debug("ConferenceController.addParticipant method has been called");
@@ -133,7 +134,7 @@ public class ConferenceController {
 
     @DeleteMapping(value = "/{conferenceId}/participants/{participantId}")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
+    @ApiOperation(value = "To remove participant from the sheduled conference", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<ConferenceResponseDto> removeParticipant(@PathVariable("participantId") String participantId,
                                                                    @PathVariable("conferenceId") String conferenceId) {
 

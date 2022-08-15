@@ -36,7 +36,7 @@ public class RoomController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
+    @ApiOperation(value = "To add a new room ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<RoomResponseDto> addRoom(@Valid @RequestBody RoomDto roomDto) {
         log.debug("RoomController.addRoom method has been called");
 
@@ -56,7 +56,7 @@ public class RoomController {
 
     @PatchMapping(value = "/{roomId}")
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
+    @ApiOperation(value = "To update a limited properties of a room ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<RoomResponseDto> updateRoom(@Valid @RequestBody RoomUpdateDto roomUpdateDto,
                                                       @PathVariable("roomId") String roomId) {
 
@@ -72,7 +72,7 @@ public class RoomController {
 
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
+    @ApiOperation(value = "To see information about rooms ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<List<RoomResponseDto>> getAllRooms() {
         log.debug("RoomController.getAllRooms method has been called");
 
@@ -86,7 +86,7 @@ public class RoomController {
 
     @GetMapping("/availability")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
+    @ApiOperation(value = "To see information about availability of the rooms by reqested data ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<List<RoomResponseDto>> checkRoomsAvailability(@RequestParam(value = "seats") Integer seats,
                                                                         @RequestParam(value = "eventDate")
                                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventDate) {
@@ -99,7 +99,7 @@ public class RoomController {
 
     @PatchMapping("/book/{roomId}")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    @ApiOperation(value = "Bearer ", authorizations = {@Authorization(value = "jwtToken")})
+    @ApiOperation(value = "To book a room for the conference ", authorizations = {@Authorization(value = "jwtToken")})
     public ResponseEntity<RoomResponseDto> bookRoomForConference(@PathVariable(value = "roomId") String roomId,
                                                                  @RequestHeader(value = "conferenceId") String conferenceId) {
 

@@ -1,5 +1,6 @@
-package com.example.conference;
+package com.example.conference.configuration;
 
+import com.example.conference.ConferenceApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

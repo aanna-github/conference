@@ -14,6 +14,7 @@ import java.util.List;
 public class JwtResponseDto {
     private String token;
 
+    @Builder.Default
     private String type = "Bearer";
 
     private String id;
