@@ -115,7 +115,7 @@ public class ConferenceControllerMockMvcIntegrationTests extends ConferenceRoomA
                 .contentType(APPLICATION_JSON_VALUE)
                 .content(json(conferenceDto))
                 .characterEncoding(ENCODING))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -172,7 +172,7 @@ public class ConferenceControllerMockMvcIntegrationTests extends ConferenceRoomA
                 .contentType(APPLICATION_JSON_VALUE)
                 .content(json(conferenceUpdateDto))
                 .characterEncoding(ENCODING))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -210,7 +210,7 @@ public class ConferenceControllerMockMvcIntegrationTests extends ConferenceRoomA
         mockMvc.perform(patch(TestRequestConstants.API_CONFERENCE + TestRequestConstants.CANCEL_PATH + conference.getId())
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -224,7 +224,7 @@ public class ConferenceControllerMockMvcIntegrationTests extends ConferenceRoomA
                 .contentType(APPLICATION_JSON_VALUE)
                 .content(json(conferenceUpdateDto))
                 .characterEncoding(ENCODING))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -269,7 +269,7 @@ public class ConferenceControllerMockMvcIntegrationTests extends ConferenceRoomA
                 .contentType(APPLICATION_JSON_VALUE)
                 .content(json(participantDto))
                 .characterEncoding(ENCODING))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -383,7 +383,7 @@ public class ConferenceControllerMockMvcIntegrationTests extends ConferenceRoomA
                 + TestRequestConstants.PATH_PARTICIPANTS + "/" + participantId)
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -426,7 +426,7 @@ public class ConferenceControllerMockMvcIntegrationTests extends ConferenceRoomA
         mockMvc.perform(get(TestRequestConstants.API_CONFERENCE)
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -463,7 +463,7 @@ public class ConferenceControllerMockMvcIntegrationTests extends ConferenceRoomA
         mockMvc.perform(get(TestRequestConstants.API_CONFERENCE + "/" + conference.getId())
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test

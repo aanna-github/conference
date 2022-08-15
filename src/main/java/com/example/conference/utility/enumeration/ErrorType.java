@@ -5,6 +5,8 @@ public enum ErrorType {
 
     AUTHORIZATION_ERROR,
 
+    ACCESS_ERROR,
+
     INVALID_REQUEST_ERROR,
 
     API_ERROR,

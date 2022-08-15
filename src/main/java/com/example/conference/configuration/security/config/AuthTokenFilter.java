@@ -1,7 +1,6 @@
 package com.example.conference.configuration.security.config;
 
 import com.example.conference.configuration.security.service.UserDetailsServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

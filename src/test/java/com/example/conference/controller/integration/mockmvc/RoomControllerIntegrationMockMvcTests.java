@@ -73,7 +73,7 @@ public class RoomControllerIntegrationMockMvcTests extends ConferenceRoomApiSpri
                 .contentType(APPLICATION_JSON_VALUE)
                 .content(json(roomDto))
                 .characterEncoding(ENCODING))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class RoomControllerIntegrationMockMvcTests extends ConferenceRoomApiSpri
                 .contentType(APPLICATION_JSON_VALUE)
                 .content(json(roomUpdateDto))
                 .characterEncoding(ENCODING))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -157,7 +157,7 @@ public class RoomControllerIntegrationMockMvcTests extends ConferenceRoomApiSpri
                 .contentType(APPLICATION_JSON_VALUE)
                 .characterEncoding(ENCODING)
                 .header(TestRequestConstants.CONFERENCE_ID_HEADER, conference.getId()))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
     }
 
     @Test
