@@ -89,7 +89,7 @@ public class UserService {
                     default:
                         final RoleEnum byName = RoleEnum.findByName(role);
                         if (byName == null) {
-                            throw new InvalidInputException("There is no role named: " + role);
+                            throw new InvalidInputException("Invalid role name: " + role);
                         } else {
                             Role roleByName = roleRepository.findByName(byName)
                                     .orElseThrow(() -> new DocumentNotFoundException(ROLE_NOT_FOUND + RoleEnum.ROLE_USER));

@@ -50,17 +50,17 @@ public class AuthController {
         if (userService.isExistsByUsername(signUpRequestDto.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponseDto("Username is already taken."));
+                    .body(new MessageResponseDto("Username is already taken"));
         }
 
         if (userService.isExistsByEmail(signUpRequestDto.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponseDto("Email is already in user."));
+                    .body(new MessageResponseDto("Email iis already taken"));
         }
 
         userService.save(signUpRequestDto);
-        final MessageResponseDto messageResponseDto = new MessageResponseDto("User registered successfully.");
+        final MessageResponseDto messageResponseDto = new MessageResponseDto("User registered successfully");
         log.info(messageResponseDto.getMessage());
 
         return ResponseEntity.ok(messageResponseDto);
@@ -72,7 +72,7 @@ public class AuthController {
     public ResponseEntity<List<UserResponseDto>> getAllUsers() {
         final List<UserResponseDto> allUsers = userService.getAllUsers();
         if (allUsers == null || allUsers.isEmpty()) {
-            log.warn("There is no registered user!");
+            log.warn("There is no registered user");
             return ResponseEntity.noContent().build();
         }
 
