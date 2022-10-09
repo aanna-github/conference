@@ -58,7 +58,6 @@ public interface CommonMapper {
 
     Participant dtoToDao(ParticipantDto participantDto);
 
-
     Room dtoToDao(RoomDto roomDto);
 
     @Named("daoToRoomResponseDto")
